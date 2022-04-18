@@ -1,0 +1,6 @@
+framework module Pods_RippleButton {
+  umbrella header "Pods-RippleButton-umbrella.h"
+
+  export *
+  module * { export * }
+}
