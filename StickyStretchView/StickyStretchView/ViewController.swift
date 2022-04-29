@@ -22,8 +22,9 @@ class ViewController: UIViewController {
         view.backgroundColor = .clear
         return view
     }()
+    
     private lazy var collectionViewFlowLayout: UICollectionViewFlowLayout = {
-        let layout = StretchableUICollectionViewFlowLayout()
+        let layout = UICollectionViewFlowLayout()
         layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 1000)
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         $0.image = UIImage(named: "image")
         $0.contentMode = .scaleAspectFill
         $0.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
     override func viewDidLoad() {
@@ -43,6 +45,7 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: Function
 extension ViewController {
     
     func setupCollectionView() {
@@ -61,16 +64,22 @@ extension ViewController {
         
     }
     
-    func go(y: CGFloat) {
+    // 위로 스크롤하여 이미지가 사라질때 실행되는 애니메이션
+    // 스크롤이뷰가 이미지를 덮으면서 올라가는 느낌
+    func scrollAnimation(y: CGFloat) {
         if y > 0 {
+            // imageView의 frame값을 contentOffset.y의 절반만큼 올려준다.
             var viewFrame = imageView.frame
             viewFrame.origin.y = -y / 2
             imageView.frame = viewFrame
+            
+            // imageViewd의 alpha값을 스크롤이 올라간 비율로 조정
             imageView.alpha = 1 - y/UIScreen.main.bounds.width
         }
     }
 }
 
+// MARK: CollectionView Delegate, DataSource
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
@@ -86,6 +95,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         case UICollectionView.elementKindSectionHeader:
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerReusableId, for: indexPath)
             
+            // 뒤쪽에 깔린 image의 bottom과 ReusableHeaderView의 bottom을 연결해준다.
             imageView.snp.makeConstraints {
                 $0.left.right.top.equalToSuperview()
                 $0.bottom.lessThanOrEqualTo(headerView.snp.bottom)
@@ -99,7 +109,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
-        go(y: offsetY)
+        scrollAnimation(y: offsetY)
     }
     
 }
