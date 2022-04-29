@@ -17,6 +17,12 @@ final class CollectionReusableView: UICollectionReusableView {
     var view = UIView().then {
         $0.backgroundColor = .clear
     }
+    
+    var label = UILabel().then {
+        $0.text = "Stretch View"
+        $0.textColor = .white
+        $0.font = .systemFont(ofSize: 40)
+    }
     var imageView = UIImageView(image: UIImage(named: "img.jpg"))
     
     override init(frame: CGRect) {
@@ -35,8 +41,15 @@ extension CollectionReusableView {
     private func setUp() {
         backgroundColor = .clear
         addSubview(view)
+        view.addSubview(label)
+        
         view.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        label.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(50)
+            $0.centerX.equalToSuperview()
         }
     }
 }

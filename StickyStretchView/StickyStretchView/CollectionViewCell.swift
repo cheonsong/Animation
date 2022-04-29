@@ -24,6 +24,6 @@ final class CollectionViewCell: UICollectionViewCell {
 extension CollectionViewCell {
     
     private func setUp() {
-        backgroundColor = .darkGray
+        backgroundColor = .white
     }
 }

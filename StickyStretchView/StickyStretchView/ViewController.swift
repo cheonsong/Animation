@@ -24,17 +24,16 @@ class ViewController: UIViewController {
     }()
     private lazy var collectionViewFlowLayout: UICollectionViewFlowLayout = {
         let layout = StretchableUICollectionViewFlowLayout()
-        layout.delegate = self
         layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: 375, height: 1000)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 1000)
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
         return layout
     }()
     
     var imageView = UIImageView().then {
-        $0.image = UIImage(named: "img.jpg")
+        $0.image = UIImage(named: "image")
         $0.contentMode = .scaleAspectFill
-        $0.frame = CGRect(x: 0, y: 0, width: 375, height: 375)
+        $0.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
     }
 
     override func viewDidLoad() {
@@ -44,7 +43,8 @@ class ViewController: UIViewController {
     }
 }
 
-private extension ViewController {
+extension ViewController {
+    
     func setupCollectionView() {
         view.addSubview(imageView)
         view.addSubview(collectionView)
@@ -53,12 +53,21 @@ private extension ViewController {
         }
         
         collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerReusableId)
-        
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: cellReusableId)
         
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInsetAdjustmentBehavior = .never
+        
+    }
+    
+    func go(y: CGFloat) {
+        if y > 0 {
+            var viewFrame = imageView.frame
+            viewFrame.origin.y = -y / 2
+            imageView.frame = viewFrame
+            imageView.alpha = 1 - y/UIScreen.main.bounds.width
+        }
     }
 }
 
@@ -79,7 +88,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             
             imageView.snp.makeConstraints {
                 $0.left.right.top.equalToSuperview()
-                $0.bottom.equalTo(headerView.snp.bottom)
+                $0.bottom.lessThanOrEqualTo(headerView.snp.bottom)
             }
             
             return headerView
@@ -88,33 +97,9 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let width: CGFloat = 375
-        let height: CGFloat = 375
-        return CGSize(width: width, height: height)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        go(y: offsetY)
     }
     
 }
-
-extension ViewController: StretchDelegate {
-    func go(y: CGFloat) {
-        
-        if y < 0 {
-            collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader).forEach( { (header) in
-                imageView.snp.remakeConstraints {
-                    $0.left.right.top.equalToSuperview()
-                    $0.bottom.equalTo(header.snp.bottom)
-                }
-            })
-        } else if y > 0 {
-            imageView.snp.remakeConstraints {
-                $0.size.equalTo(375)
-            }
-            var viewFrame = imageView.frame
-            viewFrame.origin.y = -y / 2
-            imageView.frame = viewFrame
-            imageView.alpha = 1 - y/375
-        }
-    }
-}
-
