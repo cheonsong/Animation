@@ -12,9 +12,9 @@ import RxSwift
 import Then
 import RxCocoa
 
-final class CollectionReusableView: UICollectionReusableView {
+class CollectionReusableView: UICollectionReusableView {
     
-    var view = UIView().then {
+    var containerView = UIView().then {
         $0.backgroundColor = .clear
     }
     
@@ -23,6 +23,7 @@ final class CollectionReusableView: UICollectionReusableView {
         $0.textColor = .white
         $0.font = .systemFont(ofSize: 40)
     }
+    
     var imageView = UIImageView(image: UIImage(named: "img.jpg"))
     
     override init(frame: CGRect) {
@@ -40,10 +41,10 @@ extension CollectionReusableView {
     
     private func setUp() {
         backgroundColor = .clear
-        addSubview(view)
-        view.addSubview(label)
+        addSubview(containerView)
+        containerView.addSubview(label)
         
-        view.snp.makeConstraints {
+        containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
