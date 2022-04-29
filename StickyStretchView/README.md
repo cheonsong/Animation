@@ -1,52 +1,78 @@
-Ripple Button
+Sticky StretchView
 ==============
 
-**This button is implemented by referring to the material design.**
+**아래로 스크롤 시 이미지가 늘어나고, 위로 스크롤 시 이미지가 좁아지며 투명해지는 애니메이션이 구현된 뷰입니다.**
 
-<img src="https://user-images.githubusercontent.com/59193640/165275482-f955c904-d887-416a-aa49-9cd754c7a58c.gif" width="300px" height="500px"></img>
+<img src="https://user-images.githubusercontent.com/59193640/165906277-7577cfbf-415d-4a85-b879-4f77b33a878e.gif" width="300px" height="500px"></img>
 
-## Usage
-1. add RippleButton.swift to your project.
-2. Assign your button the class RippleButton.
-3. Play with the configurations to achieve what you need.
 
-## Properties
+## View Hierarchy
+```
+ViewController
+        |
+        |---- imageView
+        |---- collectionView
+                    |
+                    |---- headerView
+                    |---- collectionViewCell
+```
 
-| Property                                                | Explanation                                          | Default Value      |
-| ------------------------------------------- | ------------------------------------------ | :-----------------: |
-```rippleColor: UIColor``` | The main ripple layer color | Gray.alpha(0.2) |
-```rippleAnimationTime: TimeInterval``` | The amount of time the ripples spread from the point of touch | 0.3 |
-```initialRippleRaduis: CGFloat``` | Initial main ripple radius | 10.0 |
+## Source Code
 
-## Example
+### HeaderView
 ```Swift
-class ViewController: UIViewController {
+class CollectionReusableView: UICollectionReusableView {
     
-    var button = RippleButton().then {
-        $0.setTitle("Hello World!", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+    // collectionView 뒤쪽에 있는 이미지의 bottom을 연결시켜줄 이미지사이즈의 컨테이너뷰
+    var containerView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        view.addSubview(button)
-        button.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(100)
-        }
+    var label = UILabel().then {
+        $0.text = "Stretch View"
+        $0.textColor = .white
+        $0.font = .systemFont(ofSize: 40)
     }
-
+    
+    var imageView = UIImageView(image: UIImage(named: "img.jpg"))
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUp()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setUp()
+    }
 }
 ```
 
-## Contribution
-Pull Requests are welcomed.
+### Register CollectionView
+```Swift
+collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerReusableId)
+collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: cellReusableId)
+```
 
-## Author
-cheonsong 
+### Set Constraint
+```Swift
+imageView.snp.makeConstraints {
+                $0.left.right.top.equalToSuperview()
+                // 단순히 화면만 내리는 경우에 스트레치효과를 주려면 equalTo로 연결하면 되나
+                // 화면을 올렸을 때 애니메이션을 주기위해 lessThanOrEqualTo로 레이아웃을 잡아줬습니다.
+                $0.bottom.lessThanOrEqualTo(headerView.snp.bottom)
+            }
+```
 
-## Reference
-[ameedsayeh/RippleButton](https://github.com/ameedsayeh/RippleButton)
+### Up Scrolling Animation
+```Swift
+if y > 0 {
+            // imageView의 frame값을 contentOffset.y의 절반만큼 올려준다.
+            var viewFrame = imageView.frame
+            viewFrame.origin.y = -y / 2
+            imageView.frame = viewFrame
+            
+            // imageViewd의 alpha값을 스크롤이 올라간 비율로 조정
+            imageView.alpha = 1 - y/UIScreen.main.bounds.width
+        }
+```
