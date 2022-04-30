@@ -6,6 +6,9 @@ Sticky StretchView
 
 <img src="https://user-images.githubusercontent.com/59193640/165906277-7577cfbf-415d-4a85-b879-4f77b33a878e.gif" width="300px" height="500px"></img>
 
+## Used Library
+- SnapKit
+- Then
 
 ## View Hierarchy
 ```
