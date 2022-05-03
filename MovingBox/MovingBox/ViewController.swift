@@ -11,92 +11,113 @@ import SnapKit
 
 class ViewController: UIViewController {
     
-    var startPoint = CGPoint(x: 0, y: 0)
-    var endPoint = CGPoint(x: 0, y: 0)
-    
+    var gap = CGPoint()
     var line = CAShapeLayer()
     
-    var box = UIView().then {
+    var box = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 100))).then {
         $0.backgroundColor = UIColor(named: "pastelBlue")
         $0.layer.cornerRadius = 5
     }
     
     var startDot = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5)).then {
-        $0.backgroundColor = .red
+        $0.backgroundColor = .clear
         $0.layer.cornerRadius = $0.frame.height / 2
     }
     
     var endDot = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5)).then {
-        $0.backgroundColor = .red
+        $0.backgroundColor = .clear
         $0.layer.cornerRadius = $0.frame.height / 2
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        box.center = view.center
         view.addSubview(box)
-        box.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalTo(150)
-            $0.height.equalTo(100)
-        }
+        view.addSubview(startDot)
+        view.addSubview(endDot)
         
         box.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(moveBox)))
-        
     }
     
     @objc func moveBox(_ sender: UIPanGestureRecognizer) {
         
         guard let box = sender.view else { return }
         
-        let velocity = sender.velocity(in: view)
-        let translation = sender.translation(in: view)
         switch sender.state {
             
         case .began:
-            box.addSubview(startDot)
-            startPoint = sender.location(in: view)
-            startDot.center = sender.location(in: box)
+            startDot.center = sender.location(in: view)
+            startDot.backgroundColor = .red
+            gap = box.center - startDot.center
             
         case .changed:
-            box.addSubview(endDot)
-            endPoint = sender.location(in: view)
-            endDot.center = sender.location(in: box)
-            // 점과 점사이 선분 연결
-            addLine(startPoint, endPoint)
-
+            endDot.center = sender.location(in: view)
+            endDot.backgroundColor = .red
+            
+            // 드래그 위치에 따라 박스 회전
+            self.rotate(self.getAngle(box.center, self.endDot.center))
+            // 선분의 길이를 구한후 길이가 적정길이에 도달하면 박스와 점을 이동
+            moveDot(getDistance(startDot.center, endDot.center), 150)
+            
         case .ended:
             clear()
         default:
             break
         }
     }
+  
+    // 점과 점을 잇는 선분
+//    func addLine(_ start: CGPoint, _ end: CGPoint) {
+//        let path = UIBezierPath()
+//        path.move(to: start)
+//        path.addLine(to: end)
+//        line.path = path.cgPath
+//        line.strokeColor = UIColor.red.cgColor
+//        view.layer.addSublayer(line)
+//    }
     
-    func addLine(_ start: CGPoint, _ end: CGPoint) {
-        let path = UIBezierPath()
-        path.move(to: start)
-        path.addLine(to: end)
-        path.close()
-        
-        line.path = path.cgPath
-        line.strokeColor = UIColor.red.cgColor
-        view.layer.addSublayer(line)
+    // 점과 점사이의 거리
+    func getDistance(_ start: CGPoint, _ end: CGPoint)-> Double {
+        let x = end.x - start.x
+        let y = end.y - start.y
+        return sqrt(x*x + y*y)
+    }
+    
+    // 일정거리 이상 벌어지면 점과 박스 이동
+    func moveDot(_ distance: Double, _ limit: Double) {
+        if distance > limit {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.startDot.center = self.endDot.center
+                self.box.center = self.startDot.center + self.gap
+            }, completion: nil)
+        }
     }
     
     func clear() {
-        UIView.animate(withDuration: 0.1, animations: {
-            self.startDot.alpha = 0
-            self.endDot.alpha = 0
-            self.line.opacity = 0
-        }, completion: { _ in
-            self.startDot.alpha = 1
-            self.endDot.alpha   = 1
-            self.line.opacity   = 1
-            
-            self.startDot.removeFromSuperview()
-            self.endDot.removeFromSuperview()
-            self.line.removeFromSuperlayer()
+        startDot.backgroundColor = .clear
+        endDot.backgroundColor = .clear
+        rotate(0)
+    }
+    
+    // 드래그 위치에 따른 박스 회전 각
+    func getAngle(_ startPoint: CGPoint, _ endPoint: CGPoint) -> CGFloat {
+        let angle: CGFloat
+        if endPoint.x > startPoint.x {
+            angle = endPoint.y > startPoint.y ? 5 : -5
+        } else {
+            angle = endPoint.y > startPoint.y ?  -5 : 5
+        }
+        return angle
+    }
+    
+    // 드래그 위치에 따른 박스 회전
+    func rotate(_ degrees: CGFloat) {
+        let radius: (CGFloat) -> CGFloat = { degrees in
+            return degrees / 180.0 * CGFloat.pi
+        }
+        UIView.animate(withDuration: 0.3, delay: 0, animations: {
+            self.box.transform = CGAffineTransform(rotationAngle: radius(degrees))
         })
     }
 }
@@ -104,5 +125,9 @@ class ViewController: UIViewController {
 extension CGPoint {
     static func +(left: CGPoint, right: CGPoint) -> CGPoint {
         return CGPoint(x: left.x + right.x, y: left.y + right.y)
+    }
+    
+    static func -(left: CGPoint, right: CGPoint) -> CGPoint {
+        return CGPoint(x: left.x - right.x, y: left.y - right.y)
     }
 }
