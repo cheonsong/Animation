@@ -1,79 +1,66 @@
-Sticky StretchView
+Moving Box
 ==============
 
-**아래로 스크롤 시 이미지가 늘어나고, 위로 스크롤 시 이미지가 좁아지며 투명해지는 애니메이션이 구현된 뷰입니다.**   
-**29CM 모바일 App을 보고 따라 영감을 받아 구현했습니다**
+**박스를 드래그하면 뒤따라 박스가 따라오는 애니메이션을 구현했습니다.**
 
-<img src="https://user-images.githubusercontent.com/59193640/165906277-7577cfbf-415d-4a85-b879-4f77b33a878e.gif" width="300px" height="500px"></img>
-
-
-## View Hierarchy
-```
-ViewController
-        |
-        |---- imageView
-        |---- collectionView
-                    |
-                    |---- headerView
-                    |---- collectionViewCell
-```
+<img src="https://user-images.githubusercontent.com/59193640/166424649-d0e41c93-b421-4852-b644-0e603f33a47a.gif" width="300px" height="500px"></img>
 
 ## Source Code
 
-### HeaderView
+### moveBox
 ```Swift
-class CollectionReusableView: UICollectionReusableView {
-    
-    // collectionView 뒤쪽에 있는 이미지의 bottom을 연결시켜줄 이미지사이즈의 컨테이너뷰
-    var containerView = UIView().then {
-        $0.backgroundColor = .clear
-    }
-    
-    var label = UILabel().then {
-        $0.text = "Stretch View"
-        $0.textColor = .white
-        $0.font = .systemFont(ofSize: 40)
-    }
-    
-    var imageView = UIImageView(image: UIImage(named: "img.jpg"))
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUp()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUp()
+@objc func moveBox(_ sender: UIPanGestureRecognizer) {
+        
+    guard let box = sender.view else { return }
+        
+    switch sender.state {
+            
+    case .began:
+        startDot.center = sender.location(in: view)
+        startDot.backgroundColor = .red
+        gap = box.center - startDot.center
+            
+    case .changed:
+        endDot.center = sender.location(in: view)
+        endDot.backgroundColor = .red
+           
+        // 드래그 위치에 따라 박스 회전
+        self.rotate(self.getAngle(box.center, self.endDot.center))
+        // 선분의 길이를 구한후 길이가 적정길이에 도달하면 박스와 점을 이동
+        moveDot(getDistance(startDot.center, endDot.center), 20)
+            
+    case .ended:
+        clear()
+    default:
+        break
     }
 }
 ```
 
-### Register CollectionView
+### Key Function
 ```Swift
-collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerReusableId)
-collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: cellReusableId)
+// 일정거리 이상 벌어지면 점과 박스 이동
+func moveDot(_ distance: Double, _ limit: Double) {
+    if distance > limit {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.startDot.center = self.endDot.center
+            self.box.center = self.startDot.center + self.gap
+        }, completion: nil)
+    }
+}
 ```
-
-### Set Constraint
+## 아쉬운점
 ```Swift
-imageView.snp.makeConstraints {
-                $0.left.right.top.equalToSuperview()
-                // 단순히 화면만 내리는 경우에 스트레치효과를 주려면 equalTo로 연결하면 되나
-                // 화면을 올렸을 때 애니메이션을 주기위해 lessThanOrEqualTo로 레이아웃을 잡아줬습니다.
-                $0.bottom.lessThanOrEqualTo(headerView.snp.bottom)
-            }
+func addLine(_ start: CGPoint, _ end: CGPoint) {
+    let path = UIBezierPath()
+    path.move(to: start)
+    path.addLine(to: end)
+    line.path = path.cgPath
+    line.strokeColor = UIColor.red.cgColor
+    view.layer.addSublayer(line)
+}
 ```
-
-### Up Scrolling Animation
-```Swift
-if y > 0 {
-            // imageView의 frame값을 contentOffset.y의 절반만큼 올려준다.
-            var viewFrame = imageView.frame
-            viewFrame.origin.y = -y / 2
-            imageView.frame = viewFrame
-            
-            // imageViewd의 alpha값을 스크롤이 올라간 비율로 조정
-            imageView.alpha = 1 - y/UIScreen.main.bounds.width
-        }
-```
+위 함수에서 CAShapeLayer와 UIBezierPath를 이용해 점과 점 사이의 선분을 그린 후   
+CADisplayLink를 통해 선분을 업데이트 시켜줬는데 선분은 따라오나 뭔가 부자연스러움이 있었다.   
+또한 드래깅이 끝난 후 다시 드래깅을 시도했을때 startPoint가 드래그 시작점으로 가는것이 아니라   
+이전에 드래그가 끝났던 지점에 멈춰있는 현상도 있어서 좀 더 공부하고 추가적으로 구현이 필요할 것 같다.
