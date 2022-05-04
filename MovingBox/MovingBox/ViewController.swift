@@ -58,7 +58,7 @@ class ViewController: UIViewController {
             // 드래그 위치에 따라 박스 회전
             self.rotate(self.getAngle(box.center, self.endDot.center))
             // 선분의 길이를 구한후 길이가 적정길이에 도달하면 박스와 점을 이동
-            moveDot(getDistance(startDot.center, endDot.center), 150)
+            moveDot(getDistance(startDot.center, endDot.center), 20)
             
         case .ended:
             clear()
