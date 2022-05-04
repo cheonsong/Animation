@@ -8,3 +8,6 @@
 
 ## [Moving Box](https://github.com/cheonsong/Animation/tree/main/MovingBox)   
 <img src="https://user-images.githubusercontent.com/59193640/166424649-d0e41c93-b421-4852-b644-0e603f33a47a.gif" width="300px" height="500px"></img>
+
+## [Draw Chart](https://github.com/cheonsong/Animation/tree/main/DrawChart)   
+<img src="https://user-images.githubusercontent.com/59193640/166628064-0ac7398c-f886-48c9-a264-292de7f43a61.gif" width="300px" height="500px"></img> <img src="https://user-images.githubusercontent.com/59193640/166628069-07bbf5ac-0915-482f-a0cd-1f7f251bc0b6.gif" width="300px" height="500px"></img>
