@@ -4,7 +4,7 @@ Draw Chart
 **UIBezierPath를 이용해 원형차트와 스틱차트를 그려봤습니다.**   
 
 
-<img src="https://user-images.githubusercontent.com/59193640/165906277-7577cfbf-415d-4a85-b879-4f77b33a878e.gif" width="300px" height="500px"></img>
+<img src="https://user-images.githubusercontent.com/59193640/166628064-0ac7398c-f886-48c9-a264-292de7f43a61.gif" width="300px" height="500px"></img> <img src="https://user-images.githubusercontent.com/59193640/166628069-07bbf5ac-0915-482f-a0cd-1f7f251bc0b6.gif" width="300px" height="500px"></img>
 
 ## Source Code
 
