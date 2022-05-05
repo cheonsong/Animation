@@ -102,7 +102,8 @@ class ViewController: UIViewController {
                         $0.removeFromSuperlayer()
                     })
                     
-                    self.chartView.drawStickChart(values: self.values)
+//                    self.chartView.drawStickChart(values: self.values)
+                    self.chartView.drawGraphChart(values: self.values)
                 })
             }
             .disposed(by: disposeBag)
