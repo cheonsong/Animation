@@ -58,7 +58,6 @@ class ChartView: UIView {
         
         startX = values.count % 2 == 0 ? startX - 10 : startX - 20
         
-        
         values.forEach({ i in
             
             let path = UIBezierPath()
@@ -83,7 +82,7 @@ class ChartView: UIView {
         })
     }
     
-    func drawGraphChart(values: [CGFloat]) {
+    func drawLineChart(values: [CGFloat]) {
         let max = values.max()!
         var startX = self.center.x - self.center.x / CGFloat(values.count / 2)
         let startY = self.center.y + self.center.y / 5
@@ -101,7 +100,15 @@ class ChartView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
         shapeLayer.strokeColor = UIColor.red.cgColor
-        shapeLayer.lineWidth = 5
+        shapeLayer.lineWidth = 3
+        shapeLayer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(shapeLayer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 0.5
+        
+        shapeLayer.add(animation, forKey: animation.keyPath)
     }
 }
