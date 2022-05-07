@@ -73,4 +73,29 @@ func drawStickChart(values: [CGFloat]) {
         startX += 30
     })        
 }
+```   
+### LineChart
+```Swift
+func drawLineChart(values: [CGFloat]) {
+        let max = values.max()!
+        var startX = self.center.x - self.center.x / CGFloat(values.count / 2)
+        let startY = self.center.y + self.center.y / 5
+        let rate = CGFloat(round(200 / max))
+        
+        startX = values.count % 2 == 0 ? startX - 10 : startX - 20
+        
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: startX, y: startY - rate * values.first!))
+        values.dropFirst().forEach { i in
+            startX += 30
+            path.addLine(to: CGPoint(x: startX, y: startY - rate * i))
+        }
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.strokeColor = UIColor.red.cgColor
+        shapeLayer.lineWidth = 5
+        self.layer.addSublayer(shapeLayer)
+    }
+}
 ```
