@@ -57,6 +57,7 @@ class ChartView: UIView {
         let rate = CGFloat(round(200 / max))
         
         startX = values.count % 2 == 0 ? startX - 10 : startX - 20
+        drawBackground(startX - 15, startY, values.count, rate)
         
         values.forEach({ i in
             
@@ -89,6 +90,7 @@ class ChartView: UIView {
         let rate = CGFloat(round(200 / max))
         
         startX = values.count % 2 == 0 ? startX - 10 : startX - 20
+        drawBackground(startX - 15, startY, values.count, rate)
         
         let path = UIBezierPath()
         path.move(to: CGPoint(x: startX, y: startY - rate * values.first!))
@@ -110,5 +112,25 @@ class ChartView: UIView {
         animation.duration = 0.5
         
         shapeLayer.add(animation, forKey: animation.keyPath)
+    }
+    
+    
+    func drawBackground(_ x: CGFloat, _ y: CGFloat, _ count: Int, _ rate: CGFloat) {
+        var start = CGPoint(x: x, y: y)
+        let countf = CGFloat(count)
+        //x
+        (0..<count).forEach { _ in
+            let path = UIBezierPath()
+            path.move(to: start)
+            path.addLine(to: CGPoint(x: x + 30 * countf, y: start.y))
+            
+            let layer = CAShapeLayer()
+            layer.path = path.cgPath
+            layer.lineWidth = 1
+            layer.strokeColor = UIColor.lightGray.cgColor
+            self.layer.addSublayer(layer)
+            
+            start.y -= 30
+        }
     }
 }
