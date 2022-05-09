@@ -16,6 +16,7 @@
 		E86BFA792828A3A10075376D /* SubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86BFA782828A3A10075376D /* SubViewController.swift */; };
 		E86BFA7B2828A4D60075376D /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86BFA7A2828A4D60075376D /* FloatingView.swift */; };
 		E86BFA7D2828B3C50075376D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E86BFA7C2828B3C50075376D /* Main.storyboard */; };
+		E86BFA7F2828EB990075376D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86BFA7E2828EB990075376D /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		E86BFA782828A3A10075376D /* SubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubViewController.swift; sourceTree = "<group>"; };
 		E86BFA7A2828A4D60075376D /* FloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
 		E86BFA7C2828B3C50075376D /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E86BFA7E2828EB990075376D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +82,10 @@
 				E86BFA762828A2500075376D /* AppDelegate */,
 				E86BFA662828A2440075376D /* ViewController.swift */,
 				E86BFA782828A3A10075376D /* SubViewController.swift */,
+				E86BFA7A2828A4D60075376D /* FloatingView.swift */,
 				E86BFA6B2828A2450075376D /* Assets.xcassets */,
 				E86BFA702828A2450075376D /* Info.plist */,
-				E86BFA7A2828A4D60075376D /* FloatingView.swift */,
+				E86BFA7E2828EB990075376D /* MainView.swift */,
 			);
 			path = DragDismiss;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E86BFA672828A2440075376D /* ViewController.swift in Sources */,
+				E86BFA7F2828EB990075376D /* MainView.swift in Sources */,
 				E86BFA632828A2440075376D /* AppDelegate.swift in Sources */,
 				E86BFA652828A2440075376D /* SceneDelegate.swift in Sources */,
 				E86BFA792828A3A10075376D /* SubViewController.swift in Sources */,

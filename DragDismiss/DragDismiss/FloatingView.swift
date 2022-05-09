@@ -26,7 +26,7 @@ class FloatingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     
-        backgroundColor = .black
+        backgroundColor = .clear
         alpha = 0
         
         addSubview(playButton)
