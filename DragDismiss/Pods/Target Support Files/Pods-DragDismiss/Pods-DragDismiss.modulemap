@@ -1,0 +1,6 @@
+framework module Pods_DragDismiss {
+  umbrella header "Pods-DragDismiss-umbrella.h"
+
+  export *
+  module * { export * }
+}
