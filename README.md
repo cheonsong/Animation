@@ -11,3 +11,6 @@
 
 ## [Draw Chart](https://github.com/cheonsong/Animation/tree/main/DrawChart)   
 <img src="https://user-images.githubusercontent.com/59193640/166628064-0ac7398c-f886-48c9-a264-292de7f43a61.gif" width="300px" height="500px"></img> <img src="https://user-images.githubusercontent.com/59193640/166628069-07bbf5ac-0915-482f-a0cd-1f7f251bc0b6.gif" width="300px" height="500px"></img>
+
+## [Drag Dismiss](https://github.com/cheonsong/Animation/tree/main/DragDismiss)
+<img src="https://user-images.githubusercontent.com/59193640/167543041-625825e3-7441-4710-b1fb-439021668ce1.gif" width="300px" height="500px"></img>
