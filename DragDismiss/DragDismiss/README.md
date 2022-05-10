@@ -4,7 +4,7 @@ Drag Dismiss
 **개발중인 서비스에 제스처를 통해 하단 플로팅 형태로 전환해야 하는 기능이 생겨서 멜론을 참고해 구현해봤습니다**   
 
 
-<img src="https://user-images.githubusercontent.com/59193640/167542098-c39f88a4-6f1d-41cc-b697-5fba7799e43a.gif" width="300px" height="500px"></img>
+<img src="https://user-images.githubusercontent.com/59193640/167543041-625825e3-7441-4710-b1fb-439021668ce1.gif" width="300px" height="500px"></img>
 
 ## Source Code
 기본적으로 플로팅뷰는 StatusBar 쪽에 위치하므로 내릴때 터치가 불가능함. 이에 따라 메인뷰와 플로팅뷰 각각 팬제스처가 존재함
