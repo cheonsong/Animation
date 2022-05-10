@@ -14,7 +14,7 @@ import Then
 class MainView: UIView {
     
     var title = UILabel().then {
-        $0.text = "Title"
+        $0.text = "멜론임 아무튼 멜론임"
         $0.font = .systemFont(ofSize: 20)
         $0.textColor = .white
         $0.textAlignment = .center
