@@ -58,6 +58,12 @@ class CollectionReusableView: UICollectionReusableView {
         setUp()
     }
     
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        collectionView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width * 500, y: 0), animated: false)
+    }
+    
 }
 
 extension CollectionReusableView {
@@ -79,7 +85,7 @@ extension CollectionReusableView {
 
 extension CollectionReusableView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return list.count
+        return 1000
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

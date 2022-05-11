@@ -9,8 +9,6 @@ import UIKit
 
 class ImageCollectionView: UIView {
     
-    var list = [UIImage(named: "image"), UIImage(named: "image"), UIImage(named: "image")]
-    
     var collectionView: UICollectionView!
     
     override init(frame: CGRect) {
@@ -43,13 +41,13 @@ class ImageCollectionView: UIView {
 
 extension ImageCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        list.count
+        return 1000
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as? ImageCell else { return UICollectionViewCell() }
         
-        cell.imageView.image = list[indexPath.row]
+        cell.imageView.image = UIImage(named: "image")
         
         return cell
     }

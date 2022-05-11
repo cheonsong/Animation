@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+// 헤더뷰의 컬렉션뷰에 올라가는 셀
 class DummyCell: UICollectionViewCell {
     
     static let identifier = "DummyCell"

@@ -68,6 +68,9 @@ extension ViewController {
             $0.size.equalTo(UIScreen.main.bounds.width)
         }
         
+        imageCollectionView.collectionView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width * 500, y: 0), animated: false)
+        
+        
     }
     
     // 위로 스크롤하여 이미지가 사라질때 실행되는 애니메이션
@@ -85,6 +88,7 @@ extension ViewController {
             imageCollectionView.alpha = 1 - y/UIScreen.main.bounds.width
         } else if y < 0 {
             
+            // 화면을 늘리면 (0,0)을 기준으로 늘어나기 때문에 x축을 y/2 만큼 이동시켜준다
             imageCollectionView.transform = CGAffineTransform(scaleX: scale, y: scale)
             var viewFrame = imageCollectionView.frame
             viewFrame.origin.y = 0
@@ -119,7 +123,6 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
-        print(offsetY)
         scrollAnimation(y: offsetY)
     }
     
