@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     var colors = [UIColor.red, UIColor.orange, UIColor.yellow, UIColor.green, UIColor.blue, UIColor.purple]
     
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
-        let layout = UICollectionViewFlowLayout()
+        let layout = FlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
