@@ -18,32 +18,32 @@ struct LayoutConstants {
 }
 
 class FlowLayout: UICollectionViewFlowLayout {
-    // The amount the user needs to scroll before the featured cell changes
+    // 표시된 셀이 변경되기 전에 사용자가 스크롤해야 하는 양
     let dragOffset: CGFloat = 180.0
     
     var cache: [UICollectionViewLayoutAttributes] = []
-    // Returns the item index of the currently featured cell
+    
+    // 현재 표시된 셀의 항목 인덱스를 반환합니다.
     var featuredItemIndex: Int {
-        // Use max to make sure the featureItemIndex is never < 0
         return max(0, Int(collectionView!.contentOffset.y / dragOffset))
     }
     
-    // Returns a value between 0 and 1 that represents how close the next cell is to becoming the featured cell
+    // 다음 셀이 특정 셀이 되는 데 얼마나 가까운지 나타내는 0과 1 사이의 값을 반환합니다.
     var nextItemPercentageOffset: CGFloat {
         return (collectionView!.contentOffset.y / dragOffset) - CGFloat(featuredItemIndex)
     }
     
-    // Returns the width of the collection view
+    // 컬렉션뷰의 넓이를 반환합니다.
     var width: CGFloat {
         return collectionView!.bounds.width
     }
     
-    // Returns the height of the collection view
+    // 컬렉션뷰의 높이를 반환합니다.
     var height: CGFloat {
         return collectionView!.bounds.height
     }
     
-    // Returns the number of items in the collection view
+    // 컬렉션뷰의 아이템 개수를 반환합니다.
     var numberOfItems: Int {
         return collectionView!.numberOfItems(inSection: 0)
     }
