@@ -16,6 +16,11 @@ class ViewController: UIViewController {
         $0.setTitleColor(.black, for: .normal)
     }
     
+    var asdf = UIButton().then {
+        $0.setTitle("dsaffadsfsdaf", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,6 +30,13 @@ class ViewController: UIViewController {
             $0.center.equalToSuperview()
             $0.width.equalTo(200)
             $0.height.equalTo(100)
+        }
+        
+        view.addSubview(asdf)
+        asdf.snp.makeConstraints {
+            $0.top.equalTo(button.snp.bottom).offset(50)
+            $0.centerX.equalToSuperview()
+            $0.size.equalTo(200)
         }
     }
 
