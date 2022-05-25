@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         $0.setTitleColor(.black, for: .normal)
     }
     
-    var asdf = UIButton().then {
+    var normalButton = HighlightedButton().then {
         $0.setTitle("dsaffadsfsdaf", for: .normal)
         $0.setTitleColor(.black, for: .normal)
     }
@@ -32,8 +32,8 @@ class ViewController: UIViewController {
             $0.height.equalTo(100)
         }
         
-        view.addSubview(asdf)
-        asdf.snp.makeConstraints {
+        view.addSubview(normalButton)
+        normalButton.snp.makeConstraints {
             $0.top.equalTo(button.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(200)

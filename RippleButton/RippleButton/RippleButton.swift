@@ -52,7 +52,10 @@ class RippleButton: UIButton {
         super.touchesEnded(touches, with: event)
         print("end")
         fadeOutRipple()
-        fadeOutIfCompleted = false
+        if fadeOutIfCompleted {
+            fadeOutIfCompleted = false
+            rippleLayer.removeFromSuperlayer()
+        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -117,9 +120,9 @@ extension RippleButton {
     
     func fadeOutRipple() {
         if isRippleAnimating {
-          fadeOutIfCompleted = true
+            fadeOutIfCompleted = true
         } else {
-          self.rippleLayer.removeFromSuperlayer()
+            self.rippleLayer.removeFromSuperlayer()
         }
     }
 }
