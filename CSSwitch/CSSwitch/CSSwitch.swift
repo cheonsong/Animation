@@ -23,7 +23,6 @@ class CSSwitch: UIView {
         let label = UILabel()
         label.text = "left"
         label.textAlignment = .center
-        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -31,7 +30,6 @@ class CSSwitch: UIView {
         let label = UILabel()
         label.text = "right"
         label.textAlignment = .center
-        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -39,7 +37,13 @@ class CSSwitch: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        stackView.isUserInteractionEnabled = true
         return stackView
+    }()
+    
+    private lazy var constant: NSLayoutConstraint = {
+        let constant = NSLayoutConstraint(item: selectView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
+        return constant
     }()
     
     private var selectColor = UIColor.white {
@@ -246,15 +250,6 @@ class CSSwitch: UIView {
                                         constant: 0).isActive = true
         
         NSLayoutConstraint.init(item: selectView,
-                                        attribute: .leading,
-                                        relatedBy: .equal,
-                                        toItem: self,
-                                        attribute: .leading,
-                                        multiplier: 1.0,
-                                        constant: 0).isActive = true
-        
-        
-        NSLayoutConstraint.init(item: selectView,
                                         attribute: .height,
                                         relatedBy: .equal,
                                         toItem: stackView,
@@ -270,6 +265,31 @@ class CSSwitch: UIView {
                                         multiplier: 0.5,
                                         constant: 0).isActive = true
         
+        constant.isActive = true
+        
+    }
+    
+    private func UIEvent() {
+        stackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap)))
+        
+    }
+    
+    @objc func tap(_ sender: UITapGestureRecognizer) {
+        UIView.animate(withDuration: 0.2, animations: {
+            if self.selectValue {
+                self.constant.constant = self.stackView.frame.width / 2
+                self.rightText.textColor = self.selectTextColor
+                self.leftText.textColor = self.deselectTextColor
+                self.layoutIfNeeded()
+            } else {
+                self.constant.constant = 0
+                self.rightText.textColor = self.deselectTextColor
+                self.leftText.textColor = self.selectTextColor
+                self.layoutIfNeeded()
+            }
+        }, completion: nil)
+        
+        selectValue.toggle()
     }
 }
 
