@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 class ViewController: UIViewController {
     
     var sw = CSSwitch(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-    
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,8 +21,10 @@ class ViewController: UIViewController {
         
         sw.translatesAutoresizingMaskIntoConstraints = false
         
-        sw.cornerRadius = sw.frame.height / 2
+        sw.cornerRadius = 10
         sw.borderWidth = 1
+        sw.leftText = "왼쪽"
+        sw.rightText = "오른쪽"
         
         NSLayoutConstraint(item: sw,
                            attribute: .centerX,
@@ -54,6 +57,12 @@ class ViewController: UIViewController {
                            attribute: .height,
                            multiplier: 1.0,
                            constant: 50).isActive = true
+        
+        sw.rx.switchSelect
+            .subscribe(onNext: {
+                $0 == .left ? print("왼쪽") : print("오른쪽")
+            })
+            .disposed(by: disposeBag)
     }
 
 

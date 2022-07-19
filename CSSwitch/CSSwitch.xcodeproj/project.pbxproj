@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220E67BF05D5607287F5BA4C /* Pods_CSSwitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07FB05B5023373164839CED /* Pods_CSSwitch.framework */; };
 		E8A3D28828868256001475F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A3D28728868256001475F1 /* AppDelegate.swift */; };
 		E8A3D28A28868256001475F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A3D28928868256001475F1 /* SceneDelegate.swift */; };
 		E8A3D28C28868256001475F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A3D28B28868256001475F1 /* ViewController.swift */; };
@@ -17,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A46A3972EC4C88F08CC66A9 /* Pods-CSSwitch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSSwitch.release.xcconfig"; path = "Target Support Files/Pods-CSSwitch/Pods-CSSwitch.release.xcconfig"; sourceTree = "<group>"; };
+		DA1DC712D82E6B78B9E329B2 /* Pods-CSSwitch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSSwitch.debug.xcconfig"; path = "Target Support Files/Pods-CSSwitch/Pods-CSSwitch.debug.xcconfig"; sourceTree = "<group>"; };
+		E07FB05B5023373164839CED /* Pods_CSSwitch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSSwitch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A3D28428868256001475F1 /* CSSwitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSSwitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A3D28728868256001475F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8A3D28928868256001475F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,17 +37,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				220E67BF05D5607287F5BA4C /* Pods_CSSwitch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		88EE5431BE2782DE0F5B098F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E07FB05B5023373164839CED /* Pods_CSSwitch.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E8A3D27B28868256001475F1 = {
 			isa = PBXGroup;
 			children = (
 				E8A3D28628868256001475F1 /* CSSwitch */,
 				E8A3D28528868256001475F1 /* Products */,
+				EFAB70CDEB87090636E5AA06 /* Pods */,
+				88EE5431BE2782DE0F5B098F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +85,16 @@
 			path = CSSwitch;
 			sourceTree = "<group>";
 		};
+		EFAB70CDEB87090636E5AA06 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA1DC712D82E6B78B9E329B2 /* Pods-CSSwitch.debug.xcconfig */,
+				6A46A3972EC4C88F08CC66A9 /* Pods-CSSwitch.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,9 +102,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8A3D29828868258001475F1 /* Build configuration list for PBXNativeTarget "CSSwitch" */;
 			buildPhases = (
+				EEB7EC2B1957A550D6CC9844 /* [CP] Check Pods Manifest.lock */,
 				E8A3D28028868256001475F1 /* Sources */,
 				E8A3D28128868256001475F1 /* Frameworks */,
 				E8A3D28228868256001475F1 /* Resources */,
+				574D62E79D54253FE03A4DB5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,6 +162,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		574D62E79D54253FE03A4DB5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CSSwitch/Pods-CSSwitch-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CSSwitch/Pods-CSSwitch-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CSSwitch/Pods-CSSwitch-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EEB7EC2B1957A550D6CC9844 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CSSwitch-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E8A3D28028868256001475F1 /* Sources */ = {
@@ -286,6 +355,7 @@
 		};
 		E8A3D29928868258001475F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA1DC712D82E6B78B9E329B2 /* Pods-CSSwitch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -315,6 +385,7 @@
 		};
 		E8A3D29A28868258001475F1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A46A3972EC4C88F08CC66A9 /* Pods-CSSwitch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

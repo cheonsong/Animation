@@ -7,11 +7,19 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
-class CSSwitch: UIView {
+enum Select {
+    case left
+    case right
+}
+
+class CSSwitch: UIButton {
     
     // Left: 0, Right: 1
-    var selectValue = true
+    var selectValue = Select.left
+    var disposeBag = DisposeBag()
     
     private lazy var selectView: UIView = {
         let view = UIView()
@@ -19,16 +27,14 @@ class CSSwitch: UIView {
         return view
     }()
     
-    private lazy var leftText: UILabel = {
+    private lazy var leftLabel: UILabel = {
         let label = UILabel()
-        label.text = "left"
         label.textAlignment = .center
         return label
     }()
     
-    private lazy var rightText: UILabel = {
+    private lazy var rightLabel: UILabel = {
         let label = UILabel()
-        label.text = "right"
         label.textAlignment = .center
         return label
     }()
@@ -37,7 +43,7 @@ class CSSwitch: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.isUserInteractionEnabled = true
+        stackView.isUserInteractionEnabled = false
         return stackView
     }()
     
@@ -60,25 +66,37 @@ class CSSwitch: UIView {
     
     private var selectFont = UIFont.systemFont(ofSize: 10) {
         willSet {
-            leftText.font = newValue
+            leftLabel.font = newValue
         }
     }
     
     private var deselectFont = UIFont.systemFont(ofSize: 10) {
         willSet {
-            rightText.font = newValue
+            rightLabel.font = newValue
         }
     }
     
     private var selectTextColor = UIColor.black {
         willSet {
-            leftText.textColor = newValue
+            leftLabel.textColor = newValue
         }
     }
     
     private var deselectTextColor = UIColor.white {
         willSet {
-            rightText.textColor = newValue
+            rightLabel.textColor = newValue
+        }
+    }
+    
+    private var leftLabelText = "left" {
+        willSet {
+            leftLabel.text = newValue
+        }
+    }
+    
+    private var rightLabelText = "right" {
+        willSet {
+            rightLabel.text = newValue
         }
     }
     
@@ -182,6 +200,26 @@ class CSSwitch: UIView {
         }
     }
     
+    var leftText: String {
+        get {
+            return leftLabelText
+        }
+        
+        set {
+            leftLabelText = newValue
+        }
+    }
+    
+    var rightText: String {
+        get {
+            return rightLabelText
+        }
+        
+        set {
+            rightLabelText = newValue
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -195,11 +233,11 @@ class CSSwitch: UIView {
     private func commonInit() {
         setUI()
         setConstraints()
-        UIEvent()
+        bind()
     }
     
     private func setUI() {
-        
+        isSelected = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         selectView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -212,8 +250,8 @@ class CSSwitch: UIView {
         
         addSubview(selectView)
         addSubview(stackView)
-        stackView.addArrangedSubview(leftText)
-        stackView.addArrangedSubview(rightText)
+        stackView.addArrangedSubview(leftLabel)
+        stackView.addArrangedSubview(rightLabel)
     }
     
     private func setConstraints() {
@@ -269,27 +307,31 @@ class CSSwitch: UIView {
         
     }
     
-    private func UIEvent() {
-        stackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap)))
+    private func bind() {
         
-    }
-    
-    @objc func tap(_ sender: UITapGestureRecognizer) {
-        UIView.animate(withDuration: 0.2, animations: {
-            if self.selectValue {
-                self.constant.constant = self.stackView.frame.width / 2
-                self.rightText.textColor = self.selectTextColor
-                self.leftText.textColor = self.deselectTextColor
-                self.layoutIfNeeded()
-            } else {
-                self.constant.constant = 0
-                self.rightText.textColor = self.deselectTextColor
-                self.leftText.textColor = self.selectTextColor
-                self.layoutIfNeeded()
-            }
-        }, completion: nil)
+        self.rx.switchSelect
+            .skip(1)
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                UIView.animate(withDuration: 0.2, animations: {
+                    if value == .left {
+                        self.constant.constant = self.stackView.frame.width / 2
+                        self.rightLabel.textColor = self.selectTextColor
+                        self.leftLabel.textColor = self.deselectTextColor
+                        self.layoutIfNeeded()
+                        self.selectValue = .right
+                    } else {
+                        self.constant.constant = 0
+                        self.rightLabel.textColor = self.deselectTextColor
+                        self.leftLabel.textColor = self.selectTextColor
+                        self.layoutIfNeeded()
+                        self.selectValue = .left
+                    }
+                }, completion: nil)
+                
+            })
+            .disposed(by: disposeBag)
         
-        selectValue.toggle()
     }
 }
 
@@ -300,4 +342,14 @@ struct Default {
     static let DESELECT_TEXT_COLOR = UIColor.lightGray
     static let BORDER_COLOR        = UIColor.lightGray.cgColor
     static let BORDER_WIDTH        = CGFloat(1)
+}
+
+extension Reactive where Base: CSSwitch {
+    var switchSelect: ControlProperty<Select> {
+        return base.rx.controlProperty(editingEvents: .touchUpInside, getter: { base in
+            return base.selectValue
+        }, setter: { base, value in
+            base.selectValue = value
+        })
+    }
 }
