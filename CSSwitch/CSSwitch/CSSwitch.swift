@@ -60,7 +60,7 @@ class CSSwitch: UIButton {
     
     private var deselectColor = UIColor.clear {
         willSet {
-            stackView.backgroundColor = newValue
+            self.backgroundColor = newValue
         }
     }
     
@@ -311,7 +311,8 @@ class CSSwitch: UIButton {
         
         self.rx.switchSelect
             .skip(1)
-            .subscribe(onNext: { [weak self] value in
+            .asDriver(onErrorJustReturn: .left)
+            .drive(onNext: { [weak self] value in
                 guard let self = self else { return }
                 UIView.animate(withDuration: 0.2, animations: {
                     if value == .left {

@@ -25,6 +25,8 @@ class ViewController: UIViewController {
         sw.borderWidth = 1
         sw.leftText = "왼쪽"
         sw.rightText = "오른쪽"
+        sw.selectedColor = .white
+        sw.deselectedColor = .black
         
         NSLayoutConstraint(item: sw,
                            attribute: .centerX,
