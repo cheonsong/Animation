@@ -253,7 +253,8 @@ class CSSwitch: UIButton {
     private func commonInit() {
         setUI()
         setConstraints()
-        bind()
+        
+        self.addTarget(self, action: #selector(tap), for: .touchUpInside)
     }
     
     private func setUI() {
@@ -327,31 +328,22 @@ class CSSwitch: UIButton {
         
     }
     
-    private func bind() {
-        
-        self.rx.switchSelect
-            .skip(1)
-            .drive(onNext: { [weak self] value in
-                guard let self = self else { return }
-                UIView.animate(withDuration: 0.2, animations: {
-                    if value == .left {
-                        self.constant.constant = self.stackView.frame.width / 2
-                        self.rightLabel.textColor = self.selectTextColor
-                        self.leftLabel.textColor = self.deselectTextColor
-                        self.layoutIfNeeded()
-                        self.selectValue = .right
-                    } else {
-                        self.constant.constant = 0
-                        self.rightLabel.textColor = self.deselectTextColor
-                        self.leftLabel.textColor = self.selectTextColor
-                        self.layoutIfNeeded()
-                        self.selectValue = .left
-                    }
-                }, completion: nil)
-                
-            })
-            .disposed(by: disposeBag)
-        
+    @objc func tap(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, animations: {
+            if self.selectValue == .left {
+                self.constant.constant = self.stackView.frame.width / 2
+                self.rightLabel.textColor = self.selectTextColor
+                self.leftLabel.textColor = self.deselectTextColor
+                self.layoutIfNeeded()
+                self.selectValue = .right
+            } else {
+                self.constant.constant = 0
+                self.rightLabel.textColor = self.deselectTextColor
+                self.leftLabel.textColor = self.selectTextColor
+                self.layoutIfNeeded()
+                self.selectValue = .left
+            }
+        }, completion: nil)
     }
 }
 

@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         sw.selectBorderColor = UIColor.blue.cgColor
         sw.selectBorderWidth = 2
         sw.borderColor = UIColor.blue.cgColor
-        sw.borderWidth = 2
+        sw.borderWidth = 1
         sw.leftText = "왼쪽"
         sw.rightText = "오른쪽"
         sw.selectedColor = .clear
