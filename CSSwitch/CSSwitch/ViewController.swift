@@ -16,17 +16,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = .blue
+        view.backgroundColor = .white
         view.addSubview(sw)
         
         sw.translatesAutoresizingMaskIntoConstraints = false
         
-        sw.cornerRadius = 10
-        sw.borderWidth = 1
+        sw.cornerRadius = sw.frame.height / 2
+        sw.selectBorderColor = UIColor.blue.cgColor
+        sw.selectBorderWidth = 2
+        sw.borderColor = UIColor.blue.cgColor
+        sw.borderWidth = 2
         sw.leftText = "왼쪽"
         sw.rightText = "오른쪽"
-        sw.selectedColor = .white
-        sw.deselectedColor = .black
+        sw.selectedColor = .clear
+        sw.deselectedColor = .clear
+        sw.deselectedTextColor = .black
+        sw.selectedTextColor = .blue
         
         NSLayoutConstraint(item: sw,
                            attribute: .centerX,
@@ -61,7 +66,7 @@ class ViewController: UIViewController {
                            constant: 50).isActive = true
         
         sw.rx.switchSelect
-            .subscribe(onNext: {
+            .drive(onNext: {
                 $0 == .left ? print("왼쪽") : print("오른쪽")
             })
             .disposed(by: disposeBag)

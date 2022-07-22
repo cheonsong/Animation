@@ -110,6 +110,26 @@ class CSSwitch: UIButton {
     
     // 사용자가 설정할 수 있는 값
     
+    var selectBorderColor: CGColor {
+        get {
+            return selectView.layer.borderColor ?? UIColor.clear.cgColor
+        }
+        
+        set {
+            selectView.layer.borderColor = newValue
+        }
+    }
+    
+    var selectBorderWidth: CGFloat {
+        get {
+            return selectView.layer.borderWidth
+        }
+        
+        set {
+            selectView.layer.borderWidth = newValue
+        }
+    }
+    
     var borderColor: CGColor {
         get {
             return self.layer.borderColor ?? UIColor.clear.cgColor
@@ -311,7 +331,6 @@ class CSSwitch: UIButton {
         
         self.rx.switchSelect
             .skip(1)
-            .asDriver(onErrorJustReturn: .left)
             .drive(onNext: { [weak self] value in
                 guard let self = self else { return }
                 UIView.animate(withDuration: 0.2, animations: {
@@ -346,11 +365,15 @@ struct Default {
 }
 
 extension Reactive where Base: CSSwitch {
-    var switchSelect: ControlProperty<Select> {
+    private var switchType: ControlProperty<Select> {
         return base.rx.controlProperty(editingEvents: .touchUpInside, getter: { base in
             return base.selectValue
         }, setter: { base, value in
             base.selectValue = value
         })
+    }
+    
+    var switchSelect: Driver<Select> {
+        return switchType.asDriver(onErrorJustReturn: .left)
     }
 }
