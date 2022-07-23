@@ -100,7 +100,7 @@ class ChartView: UIView {
         
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.red.cgColor
+        shapeLayer.strokeColor = colors.randomElement()?.cgColor
         shapeLayer.lineWidth = 5
         self.layer.addSublayer(shapeLayer)
     }
