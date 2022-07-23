@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20D22462985750D6D1A682C9 /* Pods_RippleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFA024474107983B84006AB /* Pods_RippleButton.framework */; };
+		E8268887283DA5C000C8A416 /* HighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8268886283DA5C000C8A416 /* HighlightedButton.swift */; };
 		E845B80C280D30C7004A05D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E845B80B280D30C7004A05D8 /* AppDelegate.swift */; };
 		E845B80E280D30C7004A05D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E845B80D280D30C7004A05D8 /* SceneDelegate.swift */; };
 		E845B810280D30C7004A05D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E845B80F280D30C7004A05D8 /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 		2C7C231DBBD58A73328C8AF8 /* Pods-RippleButton.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RippleButton.debug.xcconfig"; path = "Target Support Files/Pods-RippleButton/Pods-RippleButton.debug.xcconfig"; sourceTree = "<group>"; };
 		5FFA024474107983B84006AB /* Pods_RippleButton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RippleButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7517428D2F38627FDADCC10 /* Pods-RippleButton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RippleButton.release.xcconfig"; path = "Target Support Files/Pods-RippleButton/Pods-RippleButton.release.xcconfig"; sourceTree = "<group>"; };
+		E8268886283DA5C000C8A416 /* HighlightedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedButton.swift; sourceTree = "<group>"; };
 		E845B808280D30C7004A05D8 /* RippleButton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RippleButton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E845B80B280D30C7004A05D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E845B80D280D30C7004A05D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				E845B816280D30C8004A05D8 /* LaunchScreen.storyboard */,
 				E845B819280D30C8004A05D8 /* Info.plist */,
 				E8FD064A280D3DF900C7B522 /* RippleButton.swift */,
+				E8268886283DA5C000C8A416 /* HighlightedButton.swift */,
 			);
 			path = RippleButton;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				E845B80C280D30C7004A05D8 /* AppDelegate.swift in Sources */,
 				E845B80E280D30C7004A05D8 /* SceneDelegate.swift in Sources */,
 				E8FD064B280D3DF900C7B522 /* RippleButton.swift in Sources */,
+				E8268887283DA5C000C8A416 /* HighlightedButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

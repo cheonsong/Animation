@@ -38,6 +38,8 @@ class ViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
+    var imageCollectionView = ImageCollectionView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +51,7 @@ class ViewController: UIViewController {
 extension ViewController {
     
     func setupCollectionView() {
-        view.addSubview(imageView)
+        view.addSubview(imageCollectionView)
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -62,19 +64,36 @@ extension ViewController {
         collectionView.dataSource = self
         collectionView.contentInsetAdjustmentBehavior = .never
         
+        imageView.snp.makeConstraints {
+            $0.size.equalTo(UIScreen.main.bounds.width)
+        }
+        
+        imageCollectionView.collectionView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width * 500, y: 0), animated: false)
+        
+        
     }
     
     // 위로 스크롤하여 이미지가 사라질때 실행되는 애니메이션
     // 스크롤이뷰가 이미지를 덮으면서 올라가는 느낌
     func scrollAnimation(y: CGFloat) {
+        let scale = y < 0 ? 1 + ((-y) / UIScreen.main.bounds.width) : 1
+        
         if y > 0 {
             // imageView의 frame값을 contentOffset.y의 절반만큼 올려준다.
-            var viewFrame = imageView.frame
+            var viewFrame = imageCollectionView.frame
             viewFrame.origin.y = -y / 2
-            imageView.frame = viewFrame
+            imageCollectionView.frame = viewFrame
             
             // imageViewd의 alpha값을 스크롤이 올라간 비율로 조정
-            imageView.alpha = 1 - y/UIScreen.main.bounds.width
+            imageCollectionView.alpha = 1 - y/UIScreen.main.bounds.width
+        } else if y < 0 {
+            
+            // 화면을 늘리면 (0,0)을 기준으로 늘어나기 때문에 x축을 y/2 만큼 이동시켜준다
+            imageCollectionView.transform = CGAffineTransform(scaleX: scale, y: scale)
+            var viewFrame = imageCollectionView.frame
+            viewFrame.origin.y = 0
+            viewFrame.origin.x = y / 2
+            imageCollectionView.frame = viewFrame
         }
     }
 }
@@ -93,13 +112,8 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerReusableId, for: indexPath)
-            
-            // 뒤쪽에 깔린 image의 bottom과 ReusableHeaderView의 bottom을 연결해준다.
-            imageView.snp.makeConstraints {
-                $0.left.right.top.equalToSuperview()
-                $0.bottom.lessThanOrEqualTo(headerView.snp.bottom)
-            }
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerReusableId, for: indexPath) as? CollectionReusableView else { return UICollectionReusableView() }
+            headerView.delegate = self
             
             return headerView
         default:
@@ -112,4 +126,10 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         scrollAnimation(y: offsetY)
     }
     
+}
+
+extension ViewController: ScrollDelegate {
+    func scrollOffset(x: CGFloat) {
+        imageCollectionView.collectionView.setContentOffset(CGPoint(x: x, y: 0), animated: false)
+    }
 }

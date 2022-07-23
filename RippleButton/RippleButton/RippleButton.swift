@@ -19,7 +19,7 @@ import UIKit
  */
 
 class RippleButton: UIButton {
-    var rippleColor: UIColor = UIColor.gray.withAlphaComponent(0.2)
+    var rippleColor: UIColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1)
     
     var initialRippleRadius: CGFloat = 10
     
@@ -40,18 +40,27 @@ class RippleButton: UIButton {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        
         guard let firstTouch = touches.first else { return }
         
         let point = firstTouch.location(in: self)
-        
+        print("start)")
         self.insertRippleCircle(at: point)
         self.animateRippleScale(at: point)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        print("end")
         fadeOutRipple()
+        if fadeOutIfCompleted {
+            fadeOutIfCompleted = false
+            rippleLayer.removeFromSuperlayer()
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        print("cancel")
     }
     
     private func insertRippleCircle(at point: CGPoint) {
@@ -111,9 +120,9 @@ extension RippleButton {
     
     func fadeOutRipple() {
         if isRippleAnimating {
-          fadeOutIfCompleted = true
+            fadeOutIfCompleted = true
         } else {
-          self.rippleLayer.removeFromSuperlayer()
+            self.rippleLayer.removeFromSuperlayer()
         }
     }
 }

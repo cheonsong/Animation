@@ -57,7 +57,7 @@ class ChartView: UIView {
         let rate = CGFloat(round(200 / max))
         
         startX = values.count % 2 == 0 ? startX - 10 : startX - 20
-        
+        drawBackground(startX - 15, startY, values.count, rate)
         
         values.forEach({ i in
             
@@ -83,13 +83,14 @@ class ChartView: UIView {
         })
     }
     
-    func drawGraphChart(values: [CGFloat]) {
+    func drawLineChart(values: [CGFloat]) {
         let max = values.max()!
         var startX = self.center.x - self.center.x / CGFloat(values.count / 2)
         let startY = self.center.y + self.center.y / 5
         let rate = CGFloat(round(200 / max))
         
         startX = values.count % 2 == 0 ? startX - 10 : startX - 20
+        drawBackground(startX - 15, startY, values.count, rate)
         
         let path = UIBezierPath()
         path.move(to: CGPoint(x: startX, y: startY - rate * values.first!))
@@ -100,8 +101,36 @@ class ChartView: UIView {
         
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = colors.randomElement()?.cgColor
-        shapeLayer.lineWidth = 5
+        shapeLayer.strokeColor = UIColor.red.cgColor
+        shapeLayer.lineWidth = 3
+        shapeLayer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(shapeLayer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 0.5
+        
+        shapeLayer.add(animation, forKey: animation.keyPath)
+    }
+    
+    
+    func drawBackground(_ x: CGFloat, _ y: CGFloat, _ count: Int, _ rate: CGFloat) {
+        var start = CGPoint(x: x, y: y)
+        let countf = CGFloat(count)
+        //x
+        (0..<count).forEach { _ in
+            let path = UIBezierPath()
+            path.move(to: start)
+            path.addLine(to: CGPoint(x: x + 30 * countf, y: start.y))
+            
+            let layer = CAShapeLayer()
+            layer.path = path.cgPath
+            layer.lineWidth = 1
+            layer.strokeColor = UIColor.lightGray.cgColor
+            self.layer.addSublayer(layer)
+            
+            start.y -= 30
+        }
     }
 }

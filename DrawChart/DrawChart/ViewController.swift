@@ -29,8 +29,13 @@ class ViewController: UIViewController {
         $0.setTitleColor(.black, for: .normal)
     }
     
-    var candleButton = UIButton().then {
-        $0.setTitle("Candle", for: .normal)
+    var stickButton = UIButton().then {
+        $0.setTitle("Stick", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+    
+    var lineButton = UIButton().then {
+        $0.setTitle("Line", for: .normal)
         $0.setTitleColor(.black, for: .normal)
     }
     
@@ -42,7 +47,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         buttonList.append(circleButton)
-        buttonList.append(candleButton)
+        buttonList.append(stickButton)
+        buttonList.append(lineButton)
         
         setUI()
         setConstraint()
@@ -93,7 +99,7 @@ class ViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        candleButton.rx.tap
+        stickButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
                 
@@ -102,8 +108,21 @@ class ViewController: UIViewController {
                         $0.removeFromSuperlayer()
                     })
                     
-//                    self.chartView.drawStickChart(values: self.values)
-                    self.chartView.drawGraphChart(values: self.values)
+                    self.chartView.drawStickChart(values: self.values)
+                })
+            }
+            .disposed(by: disposeBag)
+        
+        lineButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async(execute: {
+                    self.chartView.layer.sublayers?.forEach({
+                        $0.removeFromSuperlayer()
+                    })
+                    
+                    self.chartView.drawLineChart(values: self.values)
                 })
             }
             .disposed(by: disposeBag)
